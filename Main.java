@@ -3,40 +3,40 @@ import java.io.FileNotFoundException;
 import java.util.HashMap;
 import java.util.Scanner;
 
-public class Hovedprogram {
+public class Main {
 
     static final String filnavn = "tekst.txt";
-    
+
     public static void main(String[] args) {
-        // leser tekst fra fil
+
+        /* Imagine sender */
         String text = getTextFromFile(filnavn);
-        //System.out.println(text);
-        
-        // lager frekvenstabell
-        // first integer is ascii, second is freq
-        HashMap<Integer, Integer> asciiMap = createFrequencyMap(text); 
-        
-        // create a HuffManTree from map
-        LudHuffManTree huffTree = new LudHuffManTree(asciiMap);
-        huffTree.printDictionary();
+        HashMap<Integer, Integer> asciiMap = createFrequencyMap(text);
+        HuffmanTree senderHuffTree = new HuffmanTree(asciiMap);
+        String binaryRepresentation = senderHuffTree.encode(text);
 
-        // use HuffmanTree to encode to a binary version of text
-        String binaryRepresentation = huffTree.encode(text);
-
-        // look at String
+        /*
+         * transmitt the ascii map and the encoded binary representation of string to
+         * some other party
+         */
+        System.out.println("-----------------");
+        System.out.println(asciiMap.toString());
         System.out.println(binaryRepresentation);
+        System.out.println("-----------------");
 
-        // use HuffmanTree to decode representation
-        String decodedString = huffTree.decode(binaryRepresentation);
-        
+        /* Imagine recipient */
+        HuffmanTree recipientHuffTree = new HuffmanTree(asciiMap);
+        String decodedString = recipientHuffTree.decode(binaryRepresentation);
         System.out.println(decodedString);
     }
-    
+
+    /* Return String of file content */
     public static String getTextFromFile(String fileName) {
         String text = "";
         Scanner fileScanner = null;
         try {
-            fileScanner = new Scanner (new File(fileName));;
+            fileScanner = new Scanner(new File(fileName));
+            ;
         } catch (FileNotFoundException e) {
             System.out.println(e);
             System.exit(-1);
@@ -49,7 +49,11 @@ public class Hovedprogram {
         }
         return text;
     }
-    
+
+    /*
+     * Returns a frequency map of
+     * first key Integer is ascii of symbol, value Integer is frequency
+     */
     public static HashMap<Integer, Integer> createFrequencyMap(String text) {
         HashMap<Integer, Integer> map = new HashMap<Integer, Integer>();
         for (int i = 0; i < text.length(); i++) {
@@ -57,7 +61,7 @@ public class Hovedprogram {
             if (!map.containsKey(asciiChar)) {
                 map.put(asciiChar, 1);
             } else {
-                map.put(asciiChar, map.get(asciiChar)+1);
+                map.put(asciiChar, map.get(asciiChar) + 1);
             }
         }
         return map;
