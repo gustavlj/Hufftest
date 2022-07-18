@@ -1,4 +1,4 @@
-A simple program which performs Huffman encoding and decoding to get the original string.
+A program which performs Huffman encoding of a String, and then decodes it to get the original String.
 
 Main file reads a String from a text file.
 Main creates a frequency table from file.
@@ -9,4 +9,4 @@ The transmitting process is omitted.
 Reader can imagine sending the binary representation of text and frequency map.
 
 Main creates a new Huffman tree from frequency table.
-Main gets decoded text by passing it through the Huffman tree.
+Main gets decoded text by passing encoded text through the Huffman tree.
